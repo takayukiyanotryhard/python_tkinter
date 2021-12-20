@@ -1,0 +1,59 @@
+= iphoneの個別バックアップに関するメモ
+
+:author: Yano, Takayuki
+:toc: left
+:toc-title: 目次
+:icons: font
+:xrefstyle: basic
+:sectnums:
+:source-highlighter: highlightjs
+:nofooter:
+
+<<<
+
+== 保存ファイル
+
+=== 保存先
+
+[options="autowidth"]
+|===
+| 種別 | 保存先 | 備考
+
+|音楽 | /iTunes_Control/Music/Fxx/ | xxは00～49
+|動画(iTunes経由でコピーしたもの) |同上 | 同上
+|動画(カメラで録画) | /DCIM/100APPLE/ |
+
+|写真 | 同上 |
+|===
+
+=== ファイルフォーマット
+
+[options="autowidth"]
+|===
+|種別 | フォーマット | 備考
+
+| 音楽 | m4a |
+|動画 | MOV |
+| 写真 | HEIC/MOV | 2ファイル生成される(どちらも1ファイルで表示可能)
+|iTunes経由でコピーしたもの | 任意 | 対応フォーマットに限る
+|===
+
+MOVやHEICはiso base media formatの一種
+
+2つ作られるんなら高効率の圧縮形式選ぶ意味ないやん
+
+=== 管理DB
+[options="autowidth"]
+|===
+| 種別 | 主テーブル名 | DBへのパス
+
+|音楽 | item | /iTunes_Control/iTunes/MediaLibrary.sqlitedb
+|動画(iTunes経由でコピー) | 同上 |同上
+|動画(カメラ) | ZASSET | /PhotoData/Photos.sqlite
+|写真 |同上 |同上
+|===
+
+
+
+## 参考URL
+link:https://github.com/DigiDNA/ISOBMFF[HEICの情報表示等]
