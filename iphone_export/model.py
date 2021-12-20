@@ -4,14 +4,49 @@ Created on 2021/12/20
 @author: th-yano
 '''
 
-class MyClass(object):
+class IPhoneExport(object):
     '''
     classdocs
     '''
+    EXPORT_TYPE_MUSIC = 1
+    EXPORT_TYPE_VIDEO = 2
+    EXPORT_TYPE_PICTURE = 4
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
-        
+        # soファイルを読み込む
+
+
+    def test(self, arg):
+        print("" + arg)
+
+    def setCallbackOnDeviceStatusChanged(self, callback):
+        self.st_callback = callback
+
+    def setCallbackProgress(self, callback):
+        self.pg_callback = callback
+
+    def export_video(self, output_dir):
+        #
+        self.test("video")
+
+    def export_picture(self, output_dir):
+        #
+        self.test("picture")
+
+    def export_music(self, output_dir):
+        #
+        self.test("music")
+
+    def export(self, output_dir, kind:int):
+        if (kind & self.EXPORT_TYPE_MUSIC == self.EXPORT_TYPE_MUSIC):
+            self.export_music(output_dir + "/music")
+        elif (kind & self.EXPORT_TYPE_VIDEO == self.EXPORT_TYPE_VIDEO):
+            self.export_music(output_dir + "/video")
+        elif (kind & self.EXPORT_TYPE_PICTURE == self.EXPORT_TYPE_PICTURE):
+            self.export_music(output_dir + "/picture")
+        else:
+            pass
