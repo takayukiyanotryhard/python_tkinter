@@ -1,2 +1,8 @@
 # python_tkinter
-gui_sample
+
+## 翻訳
+python3 extra/i18n/pygettext.py -d messages -p locale python_tkinter.py iphone_export/ui.py
+python3 extra/i18n/msgfmt.py locale/ja_JP/LC_MESSAGES/messages.po
+
+## 静的解析
+flake8 --exclude=./extra --statistics

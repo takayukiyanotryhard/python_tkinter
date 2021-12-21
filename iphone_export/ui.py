@@ -17,7 +17,7 @@ class MainWindow(object):
     def show(self, frame, row_num = 0, column_num = 0):
         self.frame = frame
 
-        elm = mv.IPhoneExportUiHandler()
+        elm = self.elm = mv.IPhoneExportUiHandler()
 
 #        lbl_iphone_export = ttk.Label(master=frame, text=_("Export from IPhone"))
 
@@ -29,7 +29,7 @@ class MainWindow(object):
         txt_out_dir.insert(tkinter.END, elm.getDefaultDir())
         btn_select_dir = self.ExButton("...", h=2, w=4)
         btn_select_dir.bind("<1>", elm.onSelectDirClicked)
-        elm.setTextBox(txt_out_dir)
+        self.elm.setTextBox(txt_out_dir)
 
         btn_export_all_music = self.ExButton(_("ALL Music Export"))
         btn_export_all_music.bind("<1>", elm.onExportAllMusicClicked)
@@ -39,7 +39,7 @@ class MainWindow(object):
         btn_export_all_picture.bind("<1>", elm.onExportAllPictureClicked)
 
         btn_export_music = self.ExButton(_("Music Export"))
-        btn_export_music.bind("<1>", elm.onExportAllMusicClicked)
+        btn_export_music.bind("<1>", elm.onExportMusicClicked)
         btn_export_video = self.ExButton(_("Video Export"))
         btn_export_video.bind("<1>", elm.onExportVideoClicked)
         btn_export_picture = self.ExButton(_("Picture Export"))
@@ -72,3 +72,15 @@ class MainWindow(object):
             return tk.Button(master=  self.frame, text = str, height=h, width=w)
         else:
             return tk.Button(master=  self.frame, text = str, height=h)
+
+    def setMusicExport(self, callback):
+        self.elm.setMusicExportFrameCallback(callback, self.show_music_list)
+
+    def show_music_list(self, frame, list):
+        print("show_music_list called")
+        lbls = []
+        for str in list:
+            lbls.append(tk.Label(master = frame, text=str))
+        
+        for lbl in lbls:
+            lbl.pack()

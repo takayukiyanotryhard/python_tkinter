@@ -26,19 +26,24 @@ class IPhoneExportUiHandler(object):
         self.controller = m.IPhoneExport()
 
     def onExportAllClicked(self, e):
-        controller.export("", self.controller.EXPORT_TYPE_MUSIC)
-        controller.export("", self.controller.EXPORT_TYPE_VIDEO)
-        controller.export("", self.controller.EXPORT_TYPE_PICTURE)
+        self.controller.export("", self.controller.EXPORT_TYPE_MUSIC)
+        self.controller.export("", self.controller.EXPORT_TYPE_VIDEO)
+        self.controller.export("", self.controller.EXPORT_TYPE_PICTURE)
 
     def onExportAllMusicClicked(self, e):
-        controller.export("", self.controller.EXPORT_TYPE_MUSIC)
+        self.controller.export("", self.controller.EXPORT_TYPE_MUSIC)
 
     def onExportAllVideoClicked(self, e):
-        controller.export("", self.controller.EXPORT_TYPE_VIDEO)
+        self.controller.export("", self.controller.EXPORT_TYPE_VIDEO)
     def onExportAllPictureClicked(self, e):
-        controller.export("", self.controller.EXPORT_TYPE_PICTURE)
+        self.controller.export("", self.controller.EXPORT_TYPE_PICTURE)
     def onExportMusicClicked(self, e):
-        pass
+        frame = self.frame_callback()
+        print("frame:" + str(frame))
+        print("list_callback:" + str(self.list_callback))
+        self.list_callback(frame, self.controller.get_music_list())
+
+
     def onExportVideoClicked(self, e):
         pass
     def onExportPictureClicked(self, e):
@@ -76,3 +81,7 @@ class IPhoneExportUiHandler(object):
 
         #Todo: after使ってもへこむものはへこむ
         #後で
+
+    def setMusicExportFrameCallback(self,callback, list_callback):
+        self.frame_callback = callback
+        self.list_callback = list_callback

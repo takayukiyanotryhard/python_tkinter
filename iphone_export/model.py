@@ -19,6 +19,8 @@ class IPhoneExport(object):
         '''
         # soファイルを読み込む
 
+    def get_music_list(self):
+        return ["abc", "def"]
 
     def test(self, arg):
         print("" + arg)

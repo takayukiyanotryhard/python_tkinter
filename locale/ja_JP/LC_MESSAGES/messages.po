@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-12-20 18:15+0900\n"
+"POT-Creation-Date: 2021-12-21 09:57+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,35 +15,39 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: ../../iphone_export/ui.py:25 ../../iphone_export/ui.py:27
+#: iphone_export/ui.py:25 iphone_export/ui.py:27
 msgid "Choose Output Directory"
-msgstr "出力先ディレクトリを選択してください"
+msgstr "出力先ディレクトリを指定してください"
 
-#: ../../iphone_export/ui.py:35
+#: iphone_export/ui.py:34
 msgid "ALL Music Export"
 msgstr ""
 
-#: ../../iphone_export/ui.py:37
+#: iphone_export/ui.py:36
 msgid "ALL Video Export"
 msgstr ""
 
-#: ../../iphone_export/ui.py:39
+#: iphone_export/ui.py:38
 msgid "ALL Picture Export"
 msgstr ""
 
-#: ../../iphone_export/ui.py:42
+#: iphone_export/ui.py:41
 msgid "Music Export"
-msgstr ""
+msgstr "音楽ファイルをエクスポート"
 
-#: ../../iphone_export/ui.py:44
+#: iphone_export/ui.py:43
 msgid "Video Export"
 msgstr ""
 
-#: ../../iphone_export/ui.py:46
+#: iphone_export/ui.py:45
 msgid "Picture Export"
 msgstr ""
 
-#: ../../iphone_export/ui.py:49
+#: iphone_export/ui.py:48
 msgid "All Export"
 msgstr ""
+
+#: python_tkinter.py:45 python_tkinter.py:47
+msgid "Export from iPhone"
+msgstr "iPhoneからPCにファイルをコピー"
 
