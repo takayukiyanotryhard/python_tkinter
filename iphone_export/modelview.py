@@ -1,26 +1,25 @@
-'''
+"""
 Created on 2021/12/20
 
 @author: Yano, Takayuki
-'''
+"""
 import os
-import tkinter as tk
 import tkinter.filedialog as filedialog
 from _overlapped import NULL
 from iphone_export import model as m
-from lib2to3.fixer_util import String
 import tkinter
 
+
 class IPhoneExportUiHandler(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self):
-        '''
+        """
         Constructor
 
-        '''
+        """
         self.btn = NULL
 
         self.controller = m.IPhoneExport()
@@ -35,26 +34,27 @@ class IPhoneExportUiHandler(object):
 
     def onExportAllVideoClicked(self, e):
         self.controller.export("", self.controller.EXPORT_TYPE_VIDEO)
+
     def onExportAllPictureClicked(self, e):
         self.controller.export("", self.controller.EXPORT_TYPE_PICTURE)
+
     def onExportMusicClicked(self, e):
         frame = self.frame_callback()
         print("frame:" + str(frame))
         print("list_callback:" + str(self.list_callback))
         self.list_callback(frame, self.controller.get_music_list())
 
-
     def onExportVideoClicked(self, e):
         pass
+
     def onExportPictureClicked(self, e):
         pass
-
 
     def setDeviceIndicator(self, btn2):
         self.btn = btn2
 
     def getDefaultDir(self):
-        return "" + os.path.expanduser('~')
+        return "" + os.path.expanduser("~")
 
     def setTextBox(self, tb):
         self.txt_outdir = tb
@@ -66,22 +66,23 @@ class IPhoneExportUiHandler(object):
         表示中のディレクトリが存在しない場合はユーザディレクトリを初期ディレクトリとして開く
         """
 
-        #os.path.expanduser("~")
+        # os.path.expanduser("~")
         dpath = self.txt_outdir.get()
-        if (os.path.exists(dpath)):
+        if os.path.exists(dpath):
             pass
         else:
             dpath = getDefaultDir()
 
         ret = filedialog.askdirectory(initialdir=dpath)
 
-        if(len(ret) > 0):
+        if len(ret) > 0:
             self.txt_outdir.delete(0, tkinter.END)
             self.txt_outdir.insert(tkinter.END, ret)
 
-        #Todo: after使ってもへこむものはへこむ
-        #後で
+        # Todo: 押したときにボタンがへこむ
+        # after使っても変わらなかった
+        # 後まわし
 
-    def setMusicExportFrameCallback(self,callback, list_callback):
+    def setMusicExportFrameCallback(self, callback, list_callback):
         self.frame_callback = callback
         self.list_callback = list_callback
