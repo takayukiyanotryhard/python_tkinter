@@ -22,7 +22,7 @@ def main():
     notebook.add(tab_two, text="tab2")
     notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
-    iphone.MainWindow().show(root,tab_one)
+    iphone.MainWindow().show(tab_one)
 
     root.mainloop()
 

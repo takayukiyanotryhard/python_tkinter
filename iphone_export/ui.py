@@ -14,7 +14,7 @@ class MainWindow(object):
     def __init__(self):
         pass
 
-    def show(self, root,frame, row_num = 0, column_num = 0):
+    def show(self, frame, row_num = 0, column_num = 0):
         self.frame = frame
 
         elm = mv.IPhoneExportUiHandler()
@@ -29,7 +29,6 @@ class MainWindow(object):
         txt_out_dir.insert(tkinter.END, elm.getDefaultDir())
         btn_select_dir = self.ExButton("...", h=2, w=4)
         btn_select_dir.bind("<1>", elm.onSelectDirClicked)
-        elm.setRoot(root)
         elm.setTextBox(txt_out_dir)
 
         btn_export_all_music = self.ExButton(_("ALL Music Export"))
@@ -48,7 +47,6 @@ class MainWindow(object):
 
         btn_export_all = self.ExButton(_("All Export"), w=40)
         btn_export_all.bind("<1>", elm.onExportAllClicked)
-    #    root.grid_columnconfigure(0, weight=1)
 
 #        lbl_iphone_export.grid(row = 0, column = 0, sticky=tk.W, columnspan=3)
 

@@ -51,16 +51,10 @@ class IPhoneExportUiHandler(object):
     def getDefaultDir(self):
         return "" + os.path.expanduser('~')
 
-    def setRoot(self, root):
-        self.root = root
-
     def setTextBox(self, tb):
         self.txt_outdir = tb
 
     def onSelectDirClicked(self, e):
-        self.root.after(1, self._onSelectDirClicked(e))
-
-    def _onSelectDirClicked(self, e):
         """
         3点リーダがクリックされた場合
         表示中のディレクトリを初期ディレクトリとしてファイルを開くダイアログを開く
