@@ -1,7 +1,12 @@
 # python_tkinter
 
+## oss
+libimobiledevice under GNU Affero General Public License is distributed from
+<https://libimobiledevice.org>
+
 ## 翻訳
 python3 extra/i18n/pygettext.py -d messages -p locale python_tkinter.py iphone_export/ui.py
+
 python3 extra/i18n/msgfmt.py locale/ja_JP/LC_MESSAGES/messages.po
 
 ## 静的解析
