@@ -4,6 +4,7 @@ from . import ui
 from ctypes import *
 import shutil
 import glob
+import global_variables as g
 #from distutils.core import setup, Extension
 
 def init_cpp_module():
@@ -19,7 +20,8 @@ def init_cpp_module():
     for file in dlls:
         shutil.copy(file, cwd + "/")
 #        shutil.copy()
-    dll = cdll.LoadLibrary(lib_path + "/imobiledevice.dll")
-    print("load:" + str(dll))
+#    dll = cdll.LoadLibrary(lib_path + "/imobiledevice.dll")
+    g.dll = cdll.LoadLibrary(lib_path + "/dlltest.dll")
+    print("load:" + str(g.dll))
 
 init_cpp_module()

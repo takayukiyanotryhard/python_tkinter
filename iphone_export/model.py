@@ -3,6 +3,7 @@ Created on 2021/12/20
 
 @author: Yano, Takayuki
 '''
+import global_value as g
 
 class IPhoneExport(object):
     '''
@@ -17,9 +18,11 @@ class IPhoneExport(object):
         '''
         Constructor
         '''
-        # soファイルを読み込む
 
     def get_music_list(self):
+        # ライブラリの一覧取得をcall
+        # val = g.dll.get_ripping_progress_value()
+        # print(str(val))
         return ["abc", "def"]
 
     def test(self, arg):
