@@ -7,9 +7,10 @@
 #include "Misc.h"
 #include <tchar.h>
 #include <ctime>
+#include "AfcWrapper.h"
+#include "MediaLibraryAccess.h"
 
 
-#define MEDIA_LIBRARY_DB_NAME "MediaLibrary.sqlitedb"
 #define PHOTOS_DB_NAME "Photos.sqlite"
 
 //! DBの更新間隔
@@ -57,24 +58,30 @@ error:
  */
 IPHONE_API int32_t get_music_list(char** list, bool force_update)
 {
-    wchar_t* db_fpath = 0;
+    wchar_t db_fpath[MAX_PATH] = { 0 };
     int32_t err_no = 0;
+    int32_t column = 0;
 
     init();
 
+    wsprintf(db_fpath, L"%ws\\%ws", application_dir, _T(MEDIA_LIBRARY_DB_NAME));
     if (force_update || need_update_music_db()) {
         // iPhoneへのアクセスクラスを初期化し、
         // DBファイルをローカルに保存する
+        AfcWrapper* afc = new AfcWrapper();
+        afc->copy_media_library_db(db_fpath);
     }
     else {
         // DBファイルをセット
     }
 
     // DBへのアクセスクラスを初期化
+    MediaLibraryAccess* db = new MediaLibraryAccess(db_fpath);
 
     // 音楽ファイルの一覧を取得
+    column = db->get_music_list(list);
 
-    return 1;
+    return column;
 }
 
 /**
@@ -124,7 +131,7 @@ bool need_update_db(MEDIA_FILE_KIND kind)
     wchar_t* p = db_path;
     int len;
     bool update = true;
-    struct _stat64 stat;
+    struct _stat64 stat = { 0 };
     time_t current;
 
     time(&current);
@@ -140,6 +147,9 @@ bool need_update_db(MEDIA_FILE_KIND kind)
     }
 
     _wstat64(db_path, &stat);
+
+    // ファイルが存在しない場合はst_mtimeに0が入るので更新ルートに入る
+    update = (current - stat.st_mtime > NO_UPDATE_DB_DURATION);
 
     log("mtime:%lld\n", stat.st_mtime);
 
