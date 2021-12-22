@@ -48,6 +48,11 @@ error:
     ;
 }
 
+int32_t test_code(bool a)
+{
+    return a ? 1 : 2;
+}
+
 /**
  * iphone上の音楽ファイル一覧を返す
  *
@@ -120,6 +125,11 @@ IPHONE_API int32_t get_picture_list(char** lists, bool force_update)
 IPHONE_API int32_t get_last_error()
 {
     return last_error_no;
+}
+
+void allocate_free(char** p)
+{
+    if (p) free(p);
 }
 
 /**

@@ -4,6 +4,8 @@ Created on 2021/12/20
 @author: Yano, Takayuki
 """
 import global_variables as g
+from ctypes import *
+import iphone_export.media_format as m
 
 
 class IPhoneExport(object):
@@ -22,9 +24,16 @@ class IPhoneExport(object):
 
     def get_music_list(self):
         # ライブラリの一覧取得をcall
-        # val = g.dll.get_ripping_progress_value()
-        # print(str(val))
-        return ["abc", "def"]
+        pp = c_char_p()
+        # argtypeやrestypeの指定は必要無かった
+        column_num = g.dll.get_music_list(byref(pp), c_bool(False))
+        print("columns:" + str(column_num))
+
+        self.music_list = retval = m.get_music_list(pp, column_num)
+        print("len:" + str(len(retval)))
+
+        g.dll.allocate_free(pp)
+        return retval
 
     def test(self, arg):
         print("" + arg)

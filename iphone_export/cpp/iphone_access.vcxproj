@@ -159,6 +159,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\extra\libs</AdditionalLibraryDirectories>
       <AdditionalDependencies>imobiledevice.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).dll $(ProjectDir)..\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AfcWrapper.h" />
@@ -175,6 +178,9 @@
     <ClCompile Include="MediaLibraryAccess.cpp" />
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="PhotosDBAccess.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

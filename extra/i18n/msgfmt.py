@@ -72,7 +72,7 @@ def generate():
     # The header is 7 32-bit unsigned integers.  We don't use hash tables, so
     # the keys start right after the index tables.
     # translated string.
-    keystart = 7*4+16*len(keys)
+    keystart = 7 * 4 + 16 * len(keys)
     # and the values start after the keys
     valuestart = keystart + len(ids)
     koffsets = []
@@ -80,15 +80,15 @@ def generate():
     # The string table first has the list of keys, then the list of values.
     # Each entry has first the size of the string, then the file offset.
     for o1, l1, o2, l2 in offsets:
-        koffsets += [l1, o1+keystart]
-        voffsets += [l2, o2+valuestart]
+        koffsets += [l1, o1 + keystart]
+        voffsets += [l2, o2 + valuestart]
     offsets = koffsets + voffsets
     output = struct.pack("Iiiiiii",
                          0x950412de,       # Magic
                          0,                 # Version
                          len(keys),         # # of entries
-                         7*4,               # start of key index
-                         7*4+len(keys)*8,   # start of value index
+                         7 * 4,               # start of key index
+                         7 * 4 + len(keys) * 8,   # start of value index
                          0, 0)              # size and offset of hash table
     output += array.array("i", offsets).tobytes()
     output += ids
@@ -152,7 +152,8 @@ def make(filename, outfile):
                 if not msgid:
                     # See whether there is an encoding declaration
                     p = HeaderParser()
-                    charset = p.parsestr(msgstr.decode(encoding)).get_content_charset()
+                    charset = p.parsestr(msgstr.decode(
+                        encoding)).get_content_charset()
                     if charset:
                         encoding = charset
             section = ID
@@ -162,27 +163,30 @@ def make(filename, outfile):
         # This is a message with plural forms
         elif l.startswith('msgid_plural'):
             if section != ID:
-                print('msgid_plural not preceded by msgid on %s:%d' % (infile, lno),
-                      file=sys.stderr)
+                print(
+                    'msgid_plural not preceded by msgid on %s:%d' %
+                    (infile, lno), file=sys.stderr)
                 sys.exit(1)
             l = l[12:]
-            msgid += b'\0' # separator of singular and plural
+            msgid += b'\0'  # separator of singular and plural
             is_plural = True
         # Now we are in a msgstr section
         elif l.startswith('msgstr'):
             section = STR
             if l.startswith('msgstr['):
                 if not is_plural:
-                    print('plural without msgid_plural on %s:%d' % (infile, lno),
-                          file=sys.stderr)
+                    print(
+                        'plural without msgid_plural on %s:%d' %
+                        (infile, lno), file=sys.stderr)
                     sys.exit(1)
                 l = l.split(']', 1)[1]
                 if msgstr:
-                    msgstr += b'\0' # Separator of the various plural forms
+                    msgstr += b'\0'  # Separator of the various plural forms
             else:
                 if is_plural:
-                    print('indexed msgstr required for plural on  %s:%d' % (infile, lno),
-                          file=sys.stderr)
+                    print(
+                        'indexed msgstr required for plural on  %s:%d' %
+                        (infile, lno), file=sys.stderr)
                     sys.exit(1)
                 l = l[6:]
         # Skip empty lines
@@ -197,7 +201,7 @@ def make(filename, outfile):
         elif section == STR:
             msgstr += l.encode(encoding)
         else:
-            print('Syntax error on %s:%d' % (infile, lno), \
+            print('Syntax error on %s:%d' % (infile, lno),
                   'before:', file=sys.stderr)
             print(l, file=sys.stderr)
             sys.exit(1)
@@ -209,7 +213,7 @@ def make(filename, outfile):
     output = generate()
 
     try:
-        with open(outfile,"wb") as f:
+        with open(outfile, "wb") as f:
             f.write(output)
     except IOError as msg:
         print(msg, file=sys.stderr)

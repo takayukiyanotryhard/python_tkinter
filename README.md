@@ -9,5 +9,8 @@ python3 extra/i18n/pygettext.py -d messages -p locale python_tkinter.py iphone_e
 
 python3 extra/i18n/msgfmt.py locale/ja_JP/LC_MESSAGES/messages.po
 
+## フォーマッタ
+for a in `find . -name "*.py"`; do autopep8 -i $a; done
+
 ## 静的解析
 flake8 --exclude=./extra --statistics

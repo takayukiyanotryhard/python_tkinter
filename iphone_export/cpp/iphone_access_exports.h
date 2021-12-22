@@ -16,9 +16,10 @@ enum {
     ERROR_nantoka = -200,
 };
 
+IPHONE_API int32_t test_code(bool a);
 IPHONE_API int32_t get_music_list(char*** list, bool force_update);
 IPHONE_API int32_t get_camera_roll_list(char** lists, bool force_update);
 IPHONE_API int32_t get_home_video_list(char** lists, bool force_update);
 IPHONE_API int32_t get_picture_list(char** lists, bool force_update);
 IPHONE_API int32_t get_last_error();
-
+IPHONE_API void allocate_free(char** p);

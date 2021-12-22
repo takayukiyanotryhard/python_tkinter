@@ -12,10 +12,12 @@ app_title = "iPhone file transfer tool"
 
 def init_translation():
     gettext.translation(
-        domain="messages", localedir="locale", languages=["ja_JP"], fallback=True
-    ).install("_")
+        domain="messages",
+        localedir="locale",
+        languages=["ja_JP"],
+        fallback=True).install("_")
     #_ = t.gettext
-    #t.install("_")
+    # t.install("_")
 
 
 def music_list_frame():

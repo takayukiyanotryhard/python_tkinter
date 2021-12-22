@@ -18,7 +18,7 @@ try:
     import fintl
     _ = fintl.gettext
 except ImportError:
-    _ = lambda s: s
+    def _(s): return s
 
 __doc__ = _("""pygettext -- Python equivalent of xgettext(1)
 
@@ -173,7 +173,6 @@ DEFAULTKEYWORDS = ', '.join(default_keywords)
 EMPTYSTRING = ''
 
 
-
 # The normal pot-file header. msgmerge and Emacs's po-mode work better if it's
 # there.
 pot_header = _('''\
@@ -203,7 +202,6 @@ def usage(code, msg=''):
     sys.exit(code)
 
 
-
 def make_escapes(pass_nonascii):
     global escapes, escape
     if pass_nonascii:
@@ -228,6 +226,7 @@ def make_escapes(pass_nonascii):
 def escape_ascii(s, encoding):
     return ''.join(escapes[ord(c)] if ord(c) < 128 else c for c in s)
 
+
 def escape_nonascii(s, encoding):
     return ''.join(escapes[b] for b in s.encode(encoding))
 
@@ -238,7 +237,7 @@ def is_literal_string(s):
 
 def safe_eval(s):
     # unwrap quotes, safely
-    return eval(s, {'__builtins__':{}}, {})
+    return eval(s, {'__builtins__': {}}, {})
 
 
 def normalize(s, encoding):
@@ -298,7 +297,7 @@ def getFilesForName(name):
             list.extend(
                 [os.path.join(root, file) for file in files
                  if os.path.splitext(file)[1] == _py_ext]
-                )
+            )
         return list
     elif os.path.exists(name):
         # a single file
@@ -320,9 +319,9 @@ class TokenEater:
 
     def __call__(self, ttype, tstring, stup, etup, line):
         # dispatch
-##        import token
-##        print('ttype:', token.tok_name[ttype], 'tstring:', tstring,
-##              file=sys.stderr)
+        ##        import token
+        # print('ttype:', token.tok_name[ttype], 'tstring:', tstring,
+        # file=sys.stderr)
         self.__state(ttype, tstring, stup[0])
 
     def __waiting(self, ttype, tstring, lineno):
@@ -389,17 +388,17 @@ class TokenEater:
             # warn if we see anything else than STRING or whitespace
             print(_(
                 '*** %(file)s:%(lineno)s: Seen unexpected token "%(token)s"'
-                ) % {
+            ) % {
                 'token': tstring,
                 'file': self.__curfile,
                 'lineno': self.__lineno
-                }, file=sys.stderr)
+            }, file=sys.stderr)
             self.__state = self.__waiting
 
     def __addentry(self, msg, lineno=None, isdocstring=0):
         if lineno is None:
             lineno = self.__lineno
-        if not msg in self.__options.toexclude:
+        if msg not in self.__options.toexclude:
             entry = (self.__curfile, lineno)
             self.__messages.setdefault(msg, {})[entry] = isdocstring
 
@@ -439,8 +438,9 @@ class TokenEater:
                 elif options.locationstyle == options.SOLARIS:
                     for filename, lineno in v:
                         d = {'filename': filename, 'lineno': lineno}
-                        print(_(
-                            '# File: %(filename)s, line: %(lineno)d') % d, file=fp)
+                        print(
+                            _('# File: %(filename)s, line: %(lineno)d') %
+                            d, file=fp)
                 elif options.locationstyle == options.GNU:
                     # fit as many locations on one line, as long as the
                     # resulting line length doesn't exceed 'options.width'
@@ -461,7 +461,6 @@ class TokenEater:
                 print('msgstr ""\n', file=fp)
 
 
-
 def main():
     global default_keywords
     try:
@@ -483,7 +482,7 @@ def main():
         GNU = 1
         SOLARIS = 2
         # defaults
-        extractall = 0 # FIXME: currently this option has no effect at all.
+        extractall = 0  # FIXME: currently this option has no effect at all.
         escape = 0
         keywords = []
         outpath = ''
@@ -497,8 +496,8 @@ def main():
         nodocstrings = {}
 
     options = Options()
-    locations = {'gnu' : options.GNU,
-                 'solaris' : options.SOLARIS,
+    locations = {'gnu': options.GNU,
+                 'solaris': options.SOLARIS,
                  }
 
     # parse options
@@ -564,8 +563,10 @@ def main():
             with open(options.excludefilename) as fp:
                 options.toexclude = fp.readlines()
         except IOError:
-            print(_(
-                "Can't read --exclude-file: %s") % options.excludefilename, file=sys.stderr)
+            print(
+                _("Can't read --exclude-file: %s") %
+                options.excludefilename,
+                file=sys.stderr)
             sys.exit(1)
     else:
         options.toexclude = []

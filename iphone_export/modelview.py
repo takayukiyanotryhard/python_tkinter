@@ -50,6 +50,17 @@ class IPhoneExportUiHandler(object):
     def onExportPictureClicked(self, e):
         pass
 
+    def onExportClicked(self):
+        # エクスポートするアイテムを取得する
+        list = self.get_export_list()
+
+        # モデルに個別のエクスポートアイテムを通知してエクスポートする
+        print(str(list))
+        pass
+
+    def setExportListCallback(self, callback):
+        self.get_export_list = callback
+
     def setDeviceIndicator(self, btn2):
         self.btn = btn2
 

@@ -8,6 +8,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from iphone_export import modelview as mv
 import tkinter
+import iphone_export.music_record as music
 
 
 class MainWindow(object):
@@ -17,19 +18,20 @@ class MainWindow(object):
     def show(self, frame, row_num=0, column_num=0):
         self.frame = frame
 
-        elm = self.elm = mv.IPhoneExportUiHandler()
+        elm = self.mv = mv.IPhoneExportUiHandler()
 
         #        lbl_iphone_export = ttk.Label(master=frame, text=_("Export from IPhone"))
 
         # 出力先ディレクトリ
         str = _("Choose Output Directory")
         print("dir2:" + str)
-        lbl_export_dir = ttk.Label(master=frame, text=_("Choose Output Directory"))
+        lbl_export_dir = ttk.Label(
+            master=frame, text=_("Choose Output Directory"))
         txt_out_dir = ttk.Entry(master=frame, width=60)
         txt_out_dir.insert(tkinter.END, elm.getDefaultDir())
         btn_select_dir = self.ExButton("...", h=2, w=4)
         btn_select_dir.bind("<1>", elm.onSelectDirClicked)
-        self.elm.setTextBox(txt_out_dir)
+        elm.setTextBox(txt_out_dir)
 
         btn_export_all_music = self.ExButton(_("ALL Music Export"))
         btn_export_all_music.bind("<1>", elm.onExportAllMusicClicked)
@@ -73,17 +75,63 @@ class MainWindow(object):
             return tk.Button(master=self.frame, text=str, height=h)
 
     def setMusicExport(self, callback):
-        self.elm.setMusicExportFrameCallback(callback, self.show_music_list)
+        self.mv.setMusicExportFrameCallback(callback, self.show_music_list)
+
+    def all_check(self):
+        value = self.list[0].need_export.get()
+        # print("checked:" + str(value))
+
+        for item in self.list:
+            item.need_export.set(value)
+
+    def get_export_list(self):
+        print(str(self.rows))
+        return ["ab","cd"]
 
     def show_music_list(self, frame, list):
         """
         @brief 音楽ファイル一覧を表示する
 
-        :param list: 2次元配列
+        :param list: MusicRecordの配列
         """
-        print("show_music_list called")
+        print("show_music_list called " + str(len(list)) + " " + str(list))
+        self.list = list
 
-        lbls = [tk.Label(master=frame, text=str) for str in list]
+        #autopep8: off
+        # タイトルを別に作成する
+        title_row = [tk.Label(frame, text="#")
+               ,tk.Checkbutton(frame, variable=list[0].need_export, command=self.all_check)
+               ,tk.Label(frame, text=_("title"))
+               ,tk.Label(frame, text=_("file name"))
+               ,tk.Label(frame, text=_("file size"))
+               ,tk.Label(frame, text=_("album artist"))
+               ,tk.Label(frame, text=_("album title"))
+               ,tk.Label(frame, text=_("artist"))
+               ,tk.Label(frame, text=_("directory"))
+               ]
 
-        for lbl in lbls:
-            lbl.pack()
+        # 中身の作成
+        self.rows = [[
+                tk.Label(frame, text=str(i+1))
+                ,tk.Checkbutton(frame, variable=list[i+1].need_export)
+                ,tk.Entry(frame, textvariable=tk.StringVar(value=list[i+1].title))
+                ,tk.Label(frame, text=list[i+1].value[int(music.col.FILE_NAME)])
+                ,tk.Label(frame, text=list[i+1].value[int(music.col.FILE_SIZE)])
+                ,tk.Entry(frame, textvariable=tk.StringVar(value=list[i+1].album_artist))
+                ,tk.Entry(frame, textvariable=tk.StringVar(value=list[i+1].album))
+                ,tk.Entry(frame, textvariable=tk.StringVar(value=list[i+1].artist))
+                ,tk.Label(frame, text=list[i+1].value[int(music.col.DIRECTORY)])
+            ] for i in range(len(list) - 1)]
+        #autopep8: on
+        self.rows.insert(0, title_row)
+
+        self.mv.setExportListCallback(self.get_export_list)
+        tk.Button(frame, text=_("export"), command=self.mv.onExportClicked).grid(row=0, column=0)
+
+        r = 1
+        for row in self.rows:
+            c = 0
+            for item in row:
+                item.grid(row=r, column=c)
+                c = c + 1
+            r = r + 1

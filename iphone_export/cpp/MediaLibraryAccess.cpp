@@ -33,9 +33,9 @@ int32_t MediaLibraryAccess::get_music_list(char*** list)
 {
     int32_t retval = 0;
     const char* sql = R"(
-SELECT i.item_pid, a.album, aa.album_artist, g.genre, i.track_number,
+SELECT i.item_pid, a.album, aa.album_artist, g.genre, i.track_number,e.track_count,
     i.disc_number, e.title, ia.item_artist, e.year, b.path as directory,
-    e.location as file_name, c.composer, art.relative_path as art_path
+    e.location as file_name, e.file_size, c.composer, art.relative_path as art_path
 FROM item as i
     INNER JOIN item_extra as e
         ON i.item_pid = e.item_pid
@@ -56,7 +56,8 @@ FROM item as i
         INNER JOIN artwork_token
         on artwork.artwork_token = artwork_token.artwork_token
     )as art
-    ON i.item_pid = art.entity_pid
+        ON i.item_pid = art.entity_pid
+WHERE i.media_type = 8
     ;
         )";
     if(!connect()) goto error;
