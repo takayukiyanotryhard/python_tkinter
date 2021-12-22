@@ -16,7 +16,7 @@ do { \
         QueryPerformanceCounter(&counter); \
         double t = (double)counter.QuadPart/(double)freq.QuadPart; \
         sprintf(log_buf_u8, __VA_ARGS__); \
-        len = MultiByteToWideChar(CP_UTF8, 0, log_buf_u8, strlen(log_buf_u8), log_buf, MAX_PATH); \
+        len = MultiByteToWideChar(CP_UTF8, 0, log_buf_u8, (int)strlen(log_buf_u8), log_buf, MAX_PATH); \
         log_buf[len] = '\0'; \
         fwprintf(fp, L"%12.3f %ws(%d) %ws",t, _T(__FILE__),__LINE__, log_buf); \
         fclose(fp); \

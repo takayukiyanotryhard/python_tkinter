@@ -16,7 +16,7 @@ void get_application_dir(wchar_t** path)
 
     SHGetSpecialFolderPath(NULL, p, CSIDL_APPDATA, 0);
 
-    len = wcslen(p);
+    len = (int)wcslen(p);
     p = p + len;
     
     // Todo: Žb’è‚Å“ü‚ê‚Ä‚¨‚­

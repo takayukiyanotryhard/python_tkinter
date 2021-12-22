@@ -17,6 +17,7 @@ MediaLibraryAccess::MediaLibraryAccess(const wchar_t* path)
     if (!m_fpath) goto error;
 
     WideCharToMultiByte(CP_UTF8, 0, path, (int)wcslen(path), m_fpath, len, 0, 0);
+    m_fpath[len] = '\0';
 error:
     ;
 }
@@ -28,13 +29,13 @@ MediaLibraryAccess::~MediaLibraryAccess()
     if (m_fpath) free(m_fpath);
 }
 
-int32_t MediaLibraryAccess::get_music_list(char** list)
+int32_t MediaLibraryAccess::get_music_list(char*** list)
 {
     int32_t retval = 0;
     const char* sql = R"(
 SELECT i.item_pid, a.album, aa.album_artist, g.genre, i.track_number,
-    i.disc_number, e.title, ia.item_artist, e.year, b.path,
-    e.location, c.composer, art.relative_path
+    i.disc_number, e.title, ia.item_artist, e.year, b.path as directory,
+    e.location as file_name, c.composer, art.relative_path as art_path
 FROM item as i
     INNER JOIN item_extra as e
         ON i.item_pid = e.item_pid
@@ -60,7 +61,7 @@ FROM item as i
         )";
     if(!connect()) goto error;
 
-    retval = read(sql, &list);
+    retval = read(sql, list);
 
 error:
     disconnect();
@@ -174,7 +175,11 @@ int MediaLibraryAccess::read(const char* orig_sql, char*** pdata_set)
     // ここまでサイズ推定
 
     // ここから実データ取得
-    status = sqlite3_prepare_v2(m_dbh, orig_sql, -1, &stmt, NULL);
+    sql = buf;
+    sprintf(sql, "%s", orig_sql);
+    remove_intermediate_semicolon(sql);
+    sql = trimhead(sql);
+    status = sqlite3_prepare_v2(m_dbh, sql, -1, &stmt, NULL);
     if (status != SQLITE_OK) goto error;
 
     column_count = sqlite3_column_count(stmt);

@@ -56,7 +56,7 @@ error:
  * @param force_update true:•K‚¸DB‚ğæ“¾‚·‚é false:
  * @return ƒJƒ‰ƒ€”
  */
-IPHONE_API int32_t get_music_list(char** list, bool force_update)
+IPHONE_API int32_t get_music_list(char*** list, bool force_update)
 {
     wchar_t db_fpath[MAX_PATH] = { 0 };
     int32_t err_no = 0;
@@ -129,7 +129,6 @@ bool need_update_db(MEDIA_FILE_KIND kind)
 {
     wchar_t db_path[MAX_PATH] = { 0 };
     wchar_t* p = db_path;
-    int len;
     bool update = true;
     struct _stat64 stat = { 0 };
     time_t current;

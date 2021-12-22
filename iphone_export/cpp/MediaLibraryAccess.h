@@ -22,7 +22,7 @@ private:
 public:
     MediaLibraryAccess(const wchar_t*);
     ~MediaLibraryAccess();
-    int32_t get_music_list(char** list);
+    int32_t get_music_list(char*** list);
     bool connect();
     void disconnect();
     JOURNAL_MODE journal_mode();
