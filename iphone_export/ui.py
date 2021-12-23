@@ -84,10 +84,6 @@ class MainWindow(object):
         for item in self.list:
             item.need_export.set(value)
 
-    def get_export_list(self):
-        print(str(self.rows))
-        return ["ab","cd"]
-
     def show_music_list(self, frame, list):
         """
         @brief 音楽ファイル一覧を表示する
@@ -95,7 +91,7 @@ class MainWindow(object):
         :param list: MusicRecordの配列
         """
         print("show_music_list called " + str(len(list)) + " " + str(list))
-        self.list = list
+        self.mv.list = self.list = list
 
         #autopep8: off
         # タイトルを別に作成する
@@ -125,7 +121,6 @@ class MainWindow(object):
         #autopep8: on
         self.rows.insert(0, title_row)
 
-        self.mv.setExportListCallback(self.get_export_list)
         tk.Button(frame, text=_("export"), command=self.mv.onExportClicked).grid(row=0, column=0)
 
         r = 1

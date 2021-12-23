@@ -47,12 +47,43 @@ MOVやHEICはiso base media formatの一種
 |===
 | 種別 | 主テーブル名 | DBへのパス
 
-|音楽 | item | /iTunes_Control/iTunes/MediaLibrary.sqlitedb
+|音楽 | item | /iTunes_Control/iTunes/MediaLibrary.sqlitedb(*1)
 |動画(iTunes経由でコピー) | 同上 |同上
-|動画(カメラ) | ZASSET | /PhotoData/Photos.sqlite
+|動画(カメラ) | ZASSET | /PhotoData/Photos.sqlite(*1)
 |写真 |同上 |同上
 |===
 
+(*1) /var/mobile/Media/からの相対パスだが、 +
+上位にはアクセスできないので考慮不要
+
+
+### ファイル転送方法
+現時点ではafc以外の方法は見つかっていない
+
+iphone側でファイルに直接アクセスする方法がわからないので
+
+一旦usb接続 -> iphone側で信頼 -> Wifiでafc接続という流れ
+
+この場合、ファイル削除もサーバ側で出来てしまうが、
+設定変更通知が正常に届かなかった場合に意図しない削除が発生してしまう可能性がある。
+
+従って、ファイル削除はあくまでiphone側からのみ行う。
+
+Photosライブラリで可能 +
+https://developer.apple.com/documentation/photokit/phlivephotoview
+
+音楽ファイル(およびiTunesから転送した動画)の削除は不可 +
+https://developer.apple.com/documentation/mediaplayer/
+
+バックアップはともかく、音楽を自動削除する必要は無いと思う
+
+.必要になる権限
+[options="autowidth"]
+|===
+|種別 | 権限
+|写真、(撮影した)動画 |NSPhotoLibraryAddUsageDescription
+|音楽、(転送した)動画| NSAppleMusicUsageDescription
+|===
 
 
 ## 参考URL

@@ -51,13 +51,13 @@ class IPhoneExportUiHandler(object):
         pass
 
     def onExportClicked(self):
-        # エクスポートするアイテムを取得する
-        list = self.get_export_list()
+        # listの内、チェックされている項目を取得する
+        list = self.list
+
+        exports = [item for item in list if item.need_export.get()]
+        self.controller.export_specific(exports)
 
         # モデルに個別のエクスポートアイテムを通知してエクスポートする
-        print(str(list))
-        pass
-
     def setExportListCallback(self, callback):
         self.get_export_list = callback
 

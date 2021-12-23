@@ -56,8 +56,9 @@ class IPhoneExport(object):
         #
         self.test("music")
 
-    def export_specific(self, dst, src):
-        self.text("dst:" + dst + " src:" + src)
+    def export_specific(self, export_list):
+        for item in export_list:
+            print("export tgt:" + item.title)
 
     def export(self, output_dir, kind: int, src=""):
         if kind & self.EXPORT_TYPE_MUSIC == self.EXPORT_TYPE_MUSIC:

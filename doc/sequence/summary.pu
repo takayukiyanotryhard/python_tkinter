@@ -1,0 +1,58 @@
+@startuml
+
+title 全体の流れ
+
+skinparam NoteBorderColor #b8860b
+skinparam NoteBackgroundColor #FFFFFF
+skinparam ParticipantBackgroundColor #FFFFFF
+skinparam ParticipantBorderColor #9090FF
+
+participant user
+participant iphoneのOS機能 as os
+participant iphoneアプリ as iphone
+participant server
+
+group 初回のみの認証
+user -> iphone : usb 接続
+iphone -> server : usb 接続
+iphone -> server : 認証キー
+end
+
+group ユーザによるオートメーション設定
+user -> os : ショートカット設定:Wifi圏内でアプリ起動
+end
+os -> iphone : Wifi圏内通知による起動
+activate iphone
+
+group バックアップ処理
+iphone -> server : 一覧送信(認証キー)
+server -> iphone : 差分送信
+
+server -> os : ファイル取得(認証キー)
+os --> server : ファイル転送
+
+iphone -> server : progress(認証キー)
+server --> iphone : 最近処理したリスト
+
+activate iphone
+alt ファイル削除設定されていたら
+iphone -> iphone : ファイル削除
+end
+deactivate iphone
+iphone -> iphone : バックグラウンド設定()
+deactivate iphone
+end 
+
+os -> iphone : バックグラウンド起動
+group バックアップ処理
+note over os, iphone
+ここの起動はいつ起動されるかわからない。
+おおむね前回起動から1週間以内となっている
+end note
+iphone -> server : 一覧送信(認証キー)
+note over os, iphone
+以降上記バックアップ処理に同じ
+end note
+end
+
+@enduml

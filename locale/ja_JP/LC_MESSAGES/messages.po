@@ -14,6 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
+msgid "iPhone file transfer tool"
+msgstr "iPhone内のファイルをPCに転送するツール"
 
 #: iphone_export/ui.py:25 iphone_export/ui.py:27
 msgid "Choose Output Directory"
